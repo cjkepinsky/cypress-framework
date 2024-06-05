@@ -1,0 +1,22 @@
+{
+  "name": "cypress-framework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjkepinsky/cypress-framework.git"
+  },
+  "author": "Krzysztof Kepinski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cjkepinsky/cypress-framework/issues"
+  },
+  "homepage": "https://github.com/cjkepinsky/cypress-framework#readme",
+  "description": "",
+  "dependencies": {
+    "cypress": "^13.11.0"
+  }
+}
