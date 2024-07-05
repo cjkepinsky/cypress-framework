@@ -1,0 +1,33 @@
+{
+  "name": "cypress-framework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "reinstall": "rm -rf node_modules package-lock.json && npm install",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjkepinsky/cypress-framework.git"
+  },
+  "author": "Krzysztof Kepinski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cjkepinsky/cypress-framework/issues"
+  },
+  "homepage": "https://github.com/cjkepinsky/cypress-framework#readme",
+  "description": "",
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@cypress/webpack-preprocessor": "^6.0.2",
+    "@types/node": "^20.14.9",
+    "cypress": "^13.13.0",
+    "simple-git-hooks": "^2.11.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.3"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "npx --no -- commitlint --edit $1"
+}}

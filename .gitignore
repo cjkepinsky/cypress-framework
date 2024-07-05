@@ -1,0 +1,12 @@
+node_modules/
+npm-debug.log*
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+/cypress/videos
+/cypress/screenshots
+/cypress/downloads
+.cache
+.eslintcache
+*.tsbuildinfo
