@@ -9,7 +9,7 @@
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
-      "*": ["*", "cypress/*"]
+      "pages/*": ["cypress/pages/*"]
     }
   },
   "include": ["cypress/**/*.ts"]

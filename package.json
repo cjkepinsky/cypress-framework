@@ -4,15 +4,16 @@
   "main": "index.js",
   "scripts": {
     "reinstall": "rm -rf node_modules package-lock.json && npm install",
-    "cypress:run": "cypress run",
-    "cypress:open": "cypress open"
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "postinstall": "simple-git-hooks"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cjkepinsky/cypress-framework.git"
   },
   "author": "Krzysztof Kepinski",
-  "license": "ISC",
+  "license": "AGPL",
   "bugs": {
     "url": "https://github.com/cjkepinsky/cypress-framework/issues"
   },
@@ -23,11 +24,13 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@cypress/webpack-preprocessor": "^6.0.2",
     "@types/node": "^20.14.9",
-    "cypress": "^13.13.0",
+    "cypress": "^12.17.4",
     "simple-git-hooks": "^2.11.1",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "webpack": "^5.92.1"
   },
   "simple-git-hooks": {
     "commit-msg": "npx --no -- commitlint --edit $1"
-}}
+  }
+}

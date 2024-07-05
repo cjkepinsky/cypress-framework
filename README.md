@@ -1,8 +1,12 @@
-# Installation
+# Requirements
+- Nodejs 18.x
+- npm
+- git
 
+# Installation
 ```bash
-nvm install 18
-nvm use 18
+git clone https://github.com/cjkepinsky/cypress-framework.git
+cd cypress-framework
 npm install
 ```
 
