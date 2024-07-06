@@ -35,5 +35,8 @@
   },
   "simple-git-hooks": {
     "commit-msg": "npx --no -- commitlint --edit $1"
+  },
+  "dependencies": {
+    "cypress-real-events": "^1.13.0"
   }
 }
