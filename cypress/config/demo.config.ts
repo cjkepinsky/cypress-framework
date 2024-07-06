@@ -9,6 +9,6 @@ export default defineConfig({
     env: {
         ...baseConfig.env,
         baseUrl: "https://demo.1crmcloud.com/index.php",
-        ENVIRONMENT: "demo",
+        NODE_ENV: "demo",
     }
 });

@@ -10,3 +10,4 @@ Thumbs.db
 .cache
 .eslintcache
 *.tsbuildinfo
+package-lock.json

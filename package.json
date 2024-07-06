@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "reinstall": "rm -rf node_modules package-lock.json && npm install",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open",
+    "demo-open": "NODE_ENV=demo npx cypress open",
+    "demo-run": "NODE_ENV=demo npx cypress run",
     "postinstall": "simple-git-hooks"
   },
   "repository": {
@@ -18,17 +18,20 @@
     "url": "https://github.com/cjkepinsky/cypress-framework/issues"
   },
   "homepage": "https://github.com/cjkepinsky/cypress-framework#readme",
-  "description": "",
+  "description": "Simple example of test automation framework, based on Cypress.",
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@cypress/webpack-preprocessor": "^6.0.2",
     "@types/node": "^20.14.9",
+    "@types/webpack": "^5.28.5",
+    "babel-loader": "^8.0.0-beta.6",
     "cypress": "^12.17.4",
+    "dotenv": "^16.4.5",
     "simple-git-hooks": "^2.11.1",
-    "ts-loader": "^9.5.1",
+    "ts-loader": "^8.4.0",
     "typescript": "^5.5.3",
-    "webpack": "^5.92.1"
+    "webpack": "^4.47.0"
   },
   "simple-git-hooks": {
     "commit-msg": "npx --no -- commitlint --edit $1"

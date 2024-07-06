@@ -1,4 +1,4 @@
-import DashboardPage from "pages/dashboardPage";
+import { config } from "config/config"
 
 export default class LoginPage {
   private readonly usernameInput = '#login_user';
@@ -6,7 +6,7 @@ export default class LoginPage {
   private readonly loginButton = '#login_button';
 
   openPage() {
-    cy.visit(Cypress.env('baseUrl'));
+    cy.visit(config.baseUrl);
     return this;
   }
 
@@ -15,12 +15,12 @@ export default class LoginPage {
     return this;
   }
 
-  fillPassword(password: string) {
+  typePassword(password: string) {
     cy.get(this.passwordInput).type(password);
     return this;
   }
 
-  submit() {
+  clickLoginBtn() {
     cy.get(this.loginButton).click();
 
     return this

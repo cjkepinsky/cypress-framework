@@ -1,5 +1,6 @@
 import LoginPage from 'pages/loginPage';
 import DashboardPage from 'pages/dashboardPage';
+import { config } from 'config/config';
 
 describe('Login Functionality', () => {
   const loginPage = new LoginPage();
@@ -8,9 +9,9 @@ describe('Login Functionality', () => {
   it('should login successfully with valid credentials', () => {
     loginPage
       .openPage()
-      .typeUsername('admin')
-      .fillPassword('admin')
-      .submit()
+      .typeUsername(config.credentials.username)
+      .typePassword(config.credentials.password)
+      .clickLoginBtn()
 
       dashboardPage.isVisible()
   });
@@ -19,8 +20,8 @@ describe('Login Functionality', () => {
     loginPage
       .openPage()
       .typeUsername('invalid')
-      .fillPassword('invalid')
-      .submit();
+      .typePassword('invalid')
+      .clickLoginBtn();
 
     cy.contains('Login failed - please check your username and password and try again.').should('be.visible');
   });
