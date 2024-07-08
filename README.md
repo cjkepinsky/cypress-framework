@@ -21,7 +21,7 @@ npm run demo:run
 
 # Problems to solve
 
-## Captcha
+### Captcha
 
 from time to time captcha appears and automation fails. This could be potentially resolved by using API, however didn't
 make it working yet fully.
@@ -40,23 +40,23 @@ ApiHelper.loginAndSetCookie({
 })
 ```
 
-## Scrolling issues
+### Scrolling issues
 
-after clicking on `Create Contact` link the form is scrolled down and the scroll behavior becomes locked in this
-position.
+after clicking on `Create Contact` link (and others) the form is scrolled down and the scroll behavior becomes locked in this
+position while the teast is running.
 
-## Selecting from top submenu
+### Selecting from top submenu
 
 Selecting options by hovering on top menu and then clicking submenu option doesn't always work as expected. More time
 for investigation is needed.
 
-## Tests flakiness
+### Tests flakiness
 
 Tests will randomly fail due to the above issues.
 
 # Further Improvements
 
-## Handling uncaught exceptions
+### Handling uncaught exceptions
 
 ask Developers to resolve exceptions appearing in the console, then remove
 `Cypress.on('uncaught:exception', () => false)` from `support/e2e.ts`.
