@@ -1,0 +1,18 @@
+{
+  "topMenu": {
+    "reportsOptions": {
+      "label": "Reports & Settings",
+      "submenu": {
+        "reports": {
+          "label": "Reports",
+          "cssClass": "module-Reports"
+        }
+      }
+    },
+    "salesMarketing": "Sales & Marketing",
+    "contacts": "Contacts"
+  },
+  "leftMenu": {
+    "createContact": "Create Contact"
+  }
+}

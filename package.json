@@ -3,20 +3,40 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "reinstall": "rm -rf node_modules package-lock.json && npm install",
+    "demo:open": "NODE_ENV=demo npx cypress open",
+    "demo:run": "NODE_ENV=demo npx cypress run",
+    "postinstall": "simple-git-hooks"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cjkepinsky/cypress-framework.git"
   },
   "author": "Krzysztof Kepinski",
-  "license": "ISC",
+  "license": "AGPL",
   "bugs": {
     "url": "https://github.com/cjkepinsky/cypress-framework/issues"
   },
   "homepage": "https://github.com/cjkepinsky/cypress-framework#readme",
-  "description": "",
+  "description": "Simple example of test automation framework, based on Cypress.",
+  "devDependencies": {
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@cypress/webpack-preprocessor": "^6.0.2",
+    "@types/node": "^20.14.9",
+    "@types/webpack": "^5.28.5",
+    "babel-loader": "^8.0.0-beta.6",
+    "cypress": "^12.17.4",
+    "dotenv": "^16.4.5",
+    "simple-git-hooks": "^2.11.1",
+    "ts-loader": "^8.4.0",
+    "typescript": "^5.5.3",
+    "webpack": "^4.47.0"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "npx --no -- commitlint --edit $1"
+  },
   "dependencies": {
-    "cypress": "^13.11.0"
+    "cypress-real-events": "^1.13.0"
   }
 }
