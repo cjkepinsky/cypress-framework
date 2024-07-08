@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "reinstall": "rm -rf node_modules package-lock.json && npm install",
-    "demo-open": "NODE_ENV=demo npx cypress open",
-    "demo-run": "NODE_ENV=demo npx cypress run",
+    "demo:open": "NODE_ENV=demo npx cypress open",
+    "demo:run": "NODE_ENV=demo npx cypress run",
     "postinstall": "simple-git-hooks"
   },
   "repository": {
