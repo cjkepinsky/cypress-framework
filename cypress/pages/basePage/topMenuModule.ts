@@ -15,6 +15,7 @@ export default class TopMenuModule {
   clickSubMenuOption(menuOptionLabel: string) {
     cy.get(`${this.subMenuTabs} :contains(${menuOptionLabel})`)
       .should("be.visible")
+      // TODO something hides this element
       .click({force: true})
 
     return this

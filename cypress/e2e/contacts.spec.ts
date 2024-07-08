@@ -3,8 +3,9 @@ import HomePage from 'pages/homePage';
 import config from 'config/config';
 import ContactsPage from "pages/contactsPage";
 import commonRoutes from "routes/commonRoutes"
-import WaitHelper from "helpers/waitHelper";
-// import ApiHelper from "helpers/apiHelper";
+import menu from "consts/menuOptions.json"
+import categories from "consts/contacts/contactsCategories.json"
+import roles from "consts/contacts/contactsRoles.json"
 
 describe('Creating Contacts', () => {
   const loginPage = new LoginPage();
@@ -12,24 +13,11 @@ describe('Creating Contacts', () => {
   const contactsPage = new ContactsPage()
 
   before(() => {
-    Cypress.on('uncaught:exception', () => false)
-
     commonRoutes.getAsyncRoute()
     commonRoutes.postAsyncRoute()
   })
 
   beforeEach(() => {
-    // TODO Api login
-    // ApiHelper.loginAndSetCookie({
-    //   username: config.credentials.username,
-    //   password: config.credentials.password
-    // }).then((loginResponse) => {
-    //   cy.log('Login response in test:', JSON.stringify(loginResponse));
-    //
-    //   if (!loginResponse || !loginResponse.body) {
-    //     throw new Error('Login response or body is undefined');
-    //   }
-
     loginPage
       .openPage()
       .typeUsername(config.credentials.username)
@@ -48,25 +36,25 @@ describe('Creating Contacts', () => {
     let newContactName = `00${name} 00${surname}`
 
     homePage.topMenu
-      .mouseOverMenuOption("Sales & Marketing")
+      .mouseOverMenuOption(menu.topMenu.salesMarketing)
       .clickSubMenuOption("Contacts")
-    contactsPage.isVisible()
-
-    WaitHelper.wait(2)
-    contactsPage.leftMenu.clickMenuOption("Create Contact")
-    WaitHelper.wait(2)
+    contactsPage
+      .isVisible()
+      .wait(2)
+    contactsPage.leftMenu.clickMenuOption(menu.leftMenu.createContact)
     contactsPage.contactDetailsView
+      .wait(2)
       .isFirstNameInputVisible()
       .typeFirstName(name)
       .typeLastName(surname)
       .clickCategorySelect()
       .isCategoryDropdownVisible()
-      .clickCategoryOption('Customers')
+      .clickCategoryOption(categories.customers)
       .clickFilledCategorySelect()
-      .clickCategoryOption('Suppliers')
+      .clickCategoryOption(categories.suppliers)
       .clickBusinessRoleSelect()
       .isBusinessRoleDropdownVisible()
-      .clickBusinessRoleOption('CEO')
+      .clickBusinessRoleOption(roles.ceo)
       .clickSaveBtn()
       .isReturnToListBtnVisible()
       .clickReturnToListBtn()
@@ -74,22 +62,21 @@ describe('Creating Contacts', () => {
     contactsPage
       .waitForRoute('getAsyncRoute')
       .doesContactRecordContain(`${name} ${surname}`)
+
       .clickContact(`${name} ${surname}`)
     contactsPage.contactDetailsView
       .isVisible()
       .clickEditContactBtn()
-
       .isFirstNameInputVisible()
-
       .typeFirstName("00")
       .typeLastName("00")
       .typeTitle(title)
       .clickSaveBtn()
       .isReturnToListBtnVisible()
       .clickReturnToListBtn()
-
     contactsPage
       .waitForRoute('getAsyncRoute')
+
       .doesContactRecordContain(newContactName)
       .isContactTitleVisibleFor(newContactName, title)
   });

@@ -4,16 +4,18 @@
     "lib": ["es6", "dom"],
     "types": ["cypress", "node", "cypress-real-events"],
     "strict": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
       "config/*": ["cypress/config/*"],
+      "consts/*": ["cypress/consts/*"],
       "helpers/*": ["cypress/helpers/*"],
       "pages/*": ["cypress/pages/*"],
       "routes/*": ["cypress/routes/*"]
-    }
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": ["cypress/**/*.ts"]
 }

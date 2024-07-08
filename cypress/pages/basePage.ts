@@ -14,13 +14,13 @@ export default abstract class BasePage {
   }
 
   waitForRoute(routeAlias: string) {
-   cy.wait(`@${routeAlias}`, { timeout: 10000 })
+    cy.wait(`@${routeAlias}`, {timeout: 10000})
 
     return this
   }
 
   wait(seconds: number) {
-    cy.wait(seconds * 100)
+    cy.wait(seconds * 1000)
 
     return this
   }

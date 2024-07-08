@@ -16,7 +16,6 @@ export default class ContactDetailsView extends BaseDashboardPage {
   private readonly returnToListBtn: string = "#DetailForm_return_list"
   protected container = 'form#DetailForm';
 
-
   isFirstNameInputVisible() {
     cy.get(this.firstNameInput)
       .should("be.visible")

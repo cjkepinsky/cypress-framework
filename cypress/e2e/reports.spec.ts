@@ -3,6 +3,8 @@ import HomePage from 'pages/homePage';
 import config from 'config/config';
 import commonRoutes from "routes/commonRoutes"
 import ReportsPage from "pages/reportsPage";
+import menu from "consts/menuOptions.json"
+import reports from "consts/reportsNames.json"
 
 describe('Running Report', () => {
   const loginPage = new LoginPage();
@@ -28,18 +30,19 @@ describe('Running Report', () => {
 
   it('should run Project Profitability report', () => {
     homePage.topMenu
-      .mouseOverMenuOption("Reports & Settings")
-      .clickSubMenuOptionByClass('module-Reports')
+      .mouseOverMenuOption(menu.topMenu.reportsOptions.label)
+      .clickSubMenuOptionByClass(menu.topMenu.reportsOptions.submenu.reports.cssClass)
     reportsPage
       .wait(2)
 
       .isVisible()
-      .typeFilterInput('Project Profitability{enter}')
+      .typeFilterInput(`${reports.projectProfitability}{enter}`)
       .wait(1)
-      .clickRecordWith('Project Profitability')
+      .clickRecordWith(reports.projectProfitability)
 
     reportsPage.detailsView
-      .isVisible()
+      .wait(2)
+      .isRunReportBtnVisible()
       .clickRunReportBtn()
       .wait(2)
 
