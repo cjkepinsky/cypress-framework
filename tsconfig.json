@@ -9,8 +9,10 @@
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
+      "config/*": ["cypress/config/*"],
+      "helpers/*": ["cypress/helpers/*"],
       "pages/*": ["cypress/pages/*"],
-      "config/*": ["cypress/config/*"]
+      "routes/*": ["cypress/routes/*"]
     }
   },
   "include": ["cypress/**/*.ts"]

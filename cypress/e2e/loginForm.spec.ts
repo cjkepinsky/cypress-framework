@@ -1,6 +1,6 @@
 import LoginPage from 'pages/loginPage';
 import HomePage from 'pages/homePage';
-import { config } from 'config/config';
+import config from 'config/config';
 
 describe('Login Functionality', () => {
   const loginPage = new LoginPage();
@@ -10,7 +10,7 @@ describe('Login Functionality', () => {
     loginPage
       .openPage()
 
-      .isPageVisible()
+      .isVisible()
       .isUsernameInputVisible()
       .isPasswordInputVisible()
       .isLanguageSelectorVisible()
@@ -26,6 +26,6 @@ describe('Login Functionality', () => {
       .typePassword(config.credentials.password)
       .clickLoginBtn()
 
-      dashboardPage.isPageVisible()
+      dashboardPage.isVisible()
   });
 });

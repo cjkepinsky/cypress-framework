@@ -1,4 +1,4 @@
-import { config } from "config/config"
+import config from "config/config"
 import BasePage from "pages/basePage";
 
 export default class LoginPage extends BasePage {
@@ -8,10 +8,10 @@ export default class LoginPage extends BasePage {
   private readonly languageSelect = 'select#login_lang';
   private readonly themeSelect = 'select#login_theme';
   private readonly loginError = 'span#login-error';
-  protected pageContainer = "body.login.with-form"
+  protected container = "body.login.with-form"
 
   openPage() {
-    cy.visit(config.baseUrl);
+    super.openPage(config.baseUrl)
 
     return this;
   }

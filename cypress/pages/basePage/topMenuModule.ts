@@ -6,7 +6,8 @@ export default class TopMenuModule {
     cy.get(`${this.topMenuTabs} :contains(${menuOptionLabel})`)
      .should("be.visible")
      .realHover({pointer: 'mouse'})
-     .wait(1000)
+      // TODO waiting for submenu to appear, better solution?
+     .wait(1500)
 
     return this
   }
@@ -14,6 +15,13 @@ export default class TopMenuModule {
   clickSubMenuOption(menuOptionLabel: string) {
     cy.get(`${this.subMenuTabs} :contains(${menuOptionLabel})`)
       .should("be.visible")
+      .click({force: true})
+
+    return this
+  }
+
+  clickSubMenuOptionByClass(className: string) {
+    cy.get(`span.${className}`).closest(this.subMenuTabs)
       .realClick()
 
     return this
