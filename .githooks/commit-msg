@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo "Debug: Starting commit-msg hook"
+
+commit_msg_file=$1
+echo "Debug: Commit message file: $commit_msg_file"
+
+if [ -f "$commit_msg_file" ]; then
+  commit_msg=$(cat "$commit_msg_file")
+  echo "Debug: Commit message: $commit_msg"
+
+  # Run commitlint
+  echo "Debug: Running commitlint"
+  echo "$commit_msg" | npx commitlint
+
+  # If commitlint fails, exit with a non-zero status
+  if [ $? -ne 0 ]; then
+    echo "Commit message does not meet standards. Please fix the issues and try again."
+    exit 1
+  fi
+else
+  echo "Debug: Commit message file not found"
+  exit 1
+fi
+
+echo "Debug: commit-msg hook completed successfully"

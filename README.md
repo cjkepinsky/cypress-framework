@@ -10,6 +10,7 @@
 git clone https://github.com/cjkepinsky/cypress-framework.git
 cd cypress-framework
 npm install
+git config core.hooksPath .githooks
 ```
 
 # Running Tests

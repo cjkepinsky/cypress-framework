@@ -1,0 +1,21 @@
+#!/bin/sh
+
+echo "Debug: Starting pre-commit hook"
+
+# Get list of staged files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|jsx|ts|tsx)$')
+
+# Run ESLint on staged files
+if [ -n "$STAGED_FILES" ]; then
+  echo "Debug: Running ESLint"
+  npm run lint -- $STAGED_FILES
+  if [ $? -ne 0 ]; then
+    echo "ESLint failed, commit aborted"
+    exit 1
+  fi
+  echo "Debug: ESLint passed"
+else
+  echo "Debug: No files to lint"
+fi
+
+echo "Debug: Pre-commit hook completed successfully"
