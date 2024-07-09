@@ -6,7 +6,7 @@ import ReportsPage from "pages/reportsPage";
 import menu from "consts/menuOptions.json"
 import reports from "consts/reportsNames.json"
 
-describe('Running Report', () => {
+describe('Reports Functionality', () => {
   const loginPage = new LoginPage();
   const homePage = new HomePage();
   const reportsPage = new ReportsPage()
@@ -28,7 +28,7 @@ describe('Running Report', () => {
       .waitForRoute('postAsyncRoute')
   });
 
-  it('should run Project Profitability report', () => {
+  it('should run Project Profitability Report', () => {
     homePage.topMenu
       .mouseOverMenuOption(menu.topMenu.reportsOptions.label)
       .clickSubMenuOptionByClass(menu.topMenu.reportsOptions.submenu.reports.cssClass)

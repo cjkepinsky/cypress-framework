@@ -1,6 +1,6 @@
 # Requirements
 
-- Nodejs 18.x
+- Nodejs 18.12.0
 - npm
 - git
 
@@ -42,7 +42,8 @@ ApiHelper.loginAndSetCookie({
 
 ### Scrolling issues
 
-after clicking on `Create Contact` link (and others) the form is scrolled down and the scroll behavior becomes locked in this
+after clicking on `Create Contact` link (and others) the form is scrolled down and the scroll behavior becomes locked in
+this
 position while the teast is running.
 
 ### Selecting from top submenu

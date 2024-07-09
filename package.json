@@ -6,6 +6,7 @@
     "reinstall": "rm -rf node_modules package-lock.json && npm install",
     "demo:open": "NODE_ENV=demo npx cypress open",
     "demo:run": "NODE_ENV=demo npx cypress run",
+    "generate-report": "rm -f cypress/reports/output.json && npx mochawesome-merge cypress/reports/*.json --overwrite > cypress/reports/output.json && npx mochawesome-report-generator cypress/reports/output.json -o cypress/reports/html",
     "postinstall": "simple-git-hooks"
   },
   "repository": {
@@ -28,6 +29,9 @@
     "babel-loader": "^8.0.0-beta.6",
     "cypress": "^12.17.4",
     "dotenv": "^16.4.5",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0",
     "simple-git-hooks": "^2.11.1",
     "ts-loader": "^8.4.0",
     "typescript": "^5.5.3",

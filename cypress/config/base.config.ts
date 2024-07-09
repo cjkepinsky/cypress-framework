@@ -16,6 +16,13 @@ export default defineConfig({
       runMode: 1,
       openMode: 0,
     },
+    reporter: 'mochawesome',
+    reporterOptions: {
+      reportDir: 'cypress/reports',
+      overwrite: false,
+      html: false,
+      json: true
+    },
     setupNodeEvents(on, config) {
       const envPath = path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'local'}`);
 
