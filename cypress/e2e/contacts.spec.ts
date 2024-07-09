@@ -12,12 +12,10 @@ describe('Creating Contacts', () => {
   const homePage = new HomePage();
   const contactsPage = new ContactsPage()
 
-  before(() => {
+  beforeEach(() => {
     commonRoutes.getAsyncRoute()
     commonRoutes.postAsyncRoute()
-  })
 
-  beforeEach(() => {
     loginPage
       .openPage()
       .typeUsername(config.credentials.username)

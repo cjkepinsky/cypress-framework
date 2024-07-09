@@ -48,6 +48,9 @@ testing, and deploying the application.
 A configuration file for GitLab CI/CD, defining the pipelines, jobs, and stages for automating the build, test, and
 deployment processes in a GitLab environment.
 
+`.github/workflows/cypress.yml` Basic example of Github Actions automatically running Cypress tests after the merge to
+main branch.
+
 # Requirements
 
 - Nodejs 18.12.0
