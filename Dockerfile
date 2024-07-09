@@ -1,11 +1,15 @@
-FROM node:18
+FROM cypress/browsers:node18.12.0-chrome107-ff106
 
 WORKDIR /app
 
+# Kopiuj pliki package.json i package-lock.json (jeśli istnieje)
 COPY package*.json ./
 
-RUN npm install
+# Instaluj zależności
+RUN npm ci
 
+# Kopiuj resztę kodu źródłowego
 COPY . .
 
-CMD ["npm", "start"]
+# Uruchom testy
+CMD ["npm", "run", "demo-run"]
