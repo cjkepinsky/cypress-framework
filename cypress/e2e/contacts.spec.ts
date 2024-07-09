@@ -30,10 +30,10 @@ describe('Creating Contacts', () => {
   });
 
   it('should create new Contact', () => {
-    let name = Date.now().toString() + "Test"
-    let surname = Date.now().toString() + "User"
-    let title = "Sir" + Date.now().toString()
-    let newContactName = `00${name} 00${surname}`
+    const name = Date.now().toString() + "Test"
+    const surname = Date.now().toString() + "User"
+    const title = "Sir" + Date.now().toString()
+    const newContactName = `00${name} 00${surname}`
 
     homePage.topMenu
       .mouseOverMenuOption(menu.topMenu.salesMarketing)
