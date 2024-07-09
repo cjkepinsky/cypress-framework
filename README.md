@@ -115,5 +115,6 @@ Tests will randomly fail due to the above issues.
 
 ### Handling uncaught exceptions
 
-ask 1CRM Developers to resolve exceptions appearing in the console, then remove
+- ask 1CRM Developers to resolve exceptions appearing in the console, then remove
 `Cypress.on('uncaught:exception', () => false)` from `support/e2e.ts`.
+- add ESLint and CommitLint checks to Gitlab ang Github configuration files
