@@ -11,12 +11,10 @@ describe('Reports Functionality', () => {
   const homePage = new HomePage();
   const reportsPage = new ReportsPage()
 
-  before(() => {
+  beforeEach(() => {
     commonRoutes.getAsyncRoute()
     commonRoutes.postAsyncRoute()
-  })
 
-  beforeEach(() => {
     loginPage
       .openPage()
       .typeUsername(config.credentials.username)
