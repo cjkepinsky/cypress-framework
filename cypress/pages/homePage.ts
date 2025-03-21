@@ -8,4 +8,9 @@ export default class HomePage extends BaseDashboardPage {
 
     return this
   }
+
+  isBookItemVisible(bookTitle: string) {
+    cy.contains(bookTitle).should('be.visible');
+    return this;
+  }
 }

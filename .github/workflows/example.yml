@@ -1,0 +1,157 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+
+    steps:
+      - name: Sprawdzenie kodu
+        uses: actions/checkout@v3
+
+      - name: Ustawienie Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Instalacja zależności
+        run: npm ci
+
+      - name: Linting kodu
+        run: npm run lint
+
+      - name: Uruchomienie testów jednostkowych
+        run: npm run test
+
+      - name: Budowanie aplikacji
+        run: npm run build
+
+      - name: Przesłanie artefaktów budowania
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            build/
+            dist/
+
+      - name: Wdrażanie na AWS S3
+        if: githname: CI/CD Pipeline
+
+        on:
+          push:
+            branches:
+              - main
+              - develop
+          pull_request:
+            branches:
+              - main
+              - develop
+        
+        jobs:
+          build-and-deploy:
+            runs-on: ubuntu-latest
+            env:
+              NODE_ENV: production
+        
+            steps:
+              - name: Sprawdzenie kodu
+                uses: actions/checkout@v3
+        
+              - name: Ustawienie Node.js
+                uses: actions/setup-node@v3
+                with:
+                  node-version: '18'
+                  cache: 'npm'
+        
+              - name: Instalacja zależności
+                run: npm ci
+        
+              - name: Linting kodu
+                run: npm run lint
+        
+              - name: Uruchomienie testów jednostkowych
+                run: npm run test
+        
+              - name: Budowanie aplikacji
+                run: npm run build
+        
+              - name: Przesłanie artefaktów budowania
+                uses: actions/upload-artifact@v3
+                with:
+                  name: build-artifacts
+                  path: |
+                    build/
+                    dist/
+        
+              - name: Wdrażanie na AWS S3
+                if: github.ref == 'refs/heads/main'
+                uses: aws-actions/s3-sync@v1
+                with:
+                  args: --acl public-read --delete
+                  source-dir: build/
+                  destination-bucket: ${{ secrets.AWS_S3_BUCKET }}
+                env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  AWS_REGION: 'us-east-1'
+        
+              - name: Inwalidacja cache CloudFront
+                if: github.ref == 'refs/heads/main'
+                uses: awact/cloudfront-invalidate@v1
+                with:
+                  distribution-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+                  paths: '/*'
+                env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  AWS_REGION: 'us-east-1'
+        
+              - name: Powiadomienie o wdrożeniu
+                if: github.ref == 'refs/heads/main'
+                uses: slackapi/slack-github-action@v1.23.0
+                with:
+                  channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+                  slack-message: 'Wdrożenie aplikacji na środowisko produkcyjne zostało zakończone pomyślnie.'
+                env:
+                  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}ub.ref == 'refs/heads/main'
+        uses: aws-actions/s3-sync@v1
+        with:
+          args: --acl public-read --delete
+          source-dir: build/
+          destination-bucket: ${{ secrets.AWS_S3_BUCKET }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-1'
+
+      - name: Inwalidacja cache CloudFront
+        if: github.ref == 'refs/heads/main'
+        uses: awact/cloudfront-invalidate@v1
+        with:
+          distribution-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          paths: '/*'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: 'us-east-1'
+
+      - name: Powiadomienie o wdrożeniu
+        if: github.ref == 'refs/heads/main'
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-message: 'Wdrożenie aplikacji na środowisko produkcyjne zostało zakończone pomyślnie.'
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
