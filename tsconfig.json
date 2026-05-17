@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["es6", "dom"],
-    "types": ["cypress", "node", "cypress-real-events"],
+    "types": ["cypress", "node"],
     "strict": true,
     "skipLibCheck": true,
     "sourceMap": true,

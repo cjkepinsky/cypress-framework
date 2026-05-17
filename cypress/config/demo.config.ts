@@ -1,14 +1,17 @@
 import {defineConfig} from "cypress";
 import baseConfig from "./base.config";
 
+const baseUrl = "https://books.toscrape.com";
+
 export default defineConfig({
-    ...baseConfig,
-    e2e: {
-        ...baseConfig.e2e,
-    },
-    env: {
-        ...baseConfig.env,
-        baseUrl: "https://demo.1crmcloud.com/index.php",
-        NODE_ENV: "demo",
-    }
+  ...baseConfig,
+  e2e: {
+    ...baseConfig.e2e,
+    baseUrl,
+  },
+  env: {
+    ...baseConfig.env,
+    BASE_URL: baseUrl,
+    NODE_ENV: "demo",
+  }
 });

@@ -1,24 +1,21 @@
 # Cypress Framework Demo
 
-A simple Cypress framework demonstrating various practices and design patterns. This project is intended for educational
-purposes and showcases automated testing with Cypress. It also provides some example configuration files including:
-Typescript,
-Webpack, ESLint, CommitLint, Jenkins, Gitlab, Docker.
+A simple Cypress framework demonstrating UI test automation with Cypress and TypeScript.
+
+The demo suite runs against [Books to Scrape](https://books.toscrape.com/), a public test website that does not require
+authentication. The scenarios cover basic storefront checks such as home page visibility, category navigation,
+pagination, and product details.
 
 # Configuration Files
 
 `package.json`
 Defines project metadata, dependencies, scripts, and other npm-related configurations.
 
-`config/config.ts`
-Main project config file
-
 `cypress.config.ts`
 Main Cypress configuration file, linked to `cypress/config/demo.config.ts`, which inherits basic Cypress configuration
 from `cypress/config/base.config.ts`. The latter file takes some basic setting from `.env.*` files.
 
-`.env.demo` and `env.local` - placed for demonstration purposes only, contain some environmental variables, in this case
-BaseURL, login and password
+`.env.demo` - placed for demonstration purposes only, contains the public demo BaseURL.
 
 `tsconfig.json`
 TypeScript configuration file specifying compiler options, such as target version, module resolution, and paths.
@@ -75,46 +72,8 @@ npm run demo:open
 npm run demo:run
 ```
 
-# Problems to solve
-
-### Captcha
-
-from time to time captcha appears and automation fails. This could be potentially resolved by using API, however didn't
-make it working yet fully.
-See `helpers/ApiHelper.login()`, usage examples:
-
-```typescript
-ApiHelper.loginAndSetCookie({
-  username: config.credentials.username,
-  password: config.credentials.password
-}).then((loginResponse) => {
-  cy.log('Login response in test:', JSON.stringify(loginResponse));
-
-  if (!loginResponse || !loginResponse.body) {
-    throw new Error('Login response or body is undefined');
-  }
-})
-```
-
-### Scrolling issues
-
-after clicking on `Create Contact` link (and others) the form is scrolled down and the scroll behavior becomes locked in
-this
-position while the teast is running.
-
-### Selecting from top submenu
-
-Selecting options by hovering on top menu and then clicking submenu option doesn't always work as expected. More time
-for investigation is needed.
-
-### Tests flakiness
-
-Tests will randomly fail due to the above issues.
-
 # Further Improvements
 
-### Handling uncaught exceptions
-
-- ask 1CRM Developers to resolve exceptions appearing in the console, then remove
-`Cypress.on('uncaught:exception', () => false)` from `support/e2e.ts`.
-- add ESLint and CommitLint checks to Gitlab ang Github configuration files
+- add ESLint and CommitLint checks to Gitlab and Github configuration files
+- add tests for filtering, sorting-like navigation, and negative assertions
+- replace any fixed waits with route-based or DOM-state-based synchronization when the tested application requires it

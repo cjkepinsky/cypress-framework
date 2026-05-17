@@ -1,0 +1,23 @@
+{
+  "siteTitle": "Books to Scrape",
+  "pageTitles": {
+    "allProducts": "All products"
+  },
+  "categories": {
+    "books": "Books",
+    "travel": "Travel",
+    "mystery": "Mystery"
+  },
+  "books": {
+    "aLightInTheAttic": "A Light in the Attic",
+    "tippingTheVelvet": "Tipping the Velvet",
+    "itsOnlyTheHimalayas": "It's Only the Himalayas"
+  },
+  "pagination": {
+    "firstPage": "Page 1 of 50",
+    "secondPage": "Page 2 of 50"
+  },
+  "availability": {
+    "inStock": "In stock"
+  }
+}

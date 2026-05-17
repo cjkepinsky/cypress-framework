@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import webpackPreprocessor from '@cypress/webpack-preprocessor';
 
 export default defineConfig({
+  allowCypressEnv: false,
   e2e: {
     specPattern: "cypress/e2e/**/*.spec.ts",
     supportFile: "cypress/support/e2e.ts",
@@ -39,8 +40,6 @@ export default defineConfig({
         ...config.env,
         NODE_ENV: process.env.NODE_ENV,
         BASE_URL: process.env.BASE_URL,
-        USERNAME: process.env.USERNAME,
-        PASSWORD: process.env.PASSWORD,
       };
 
       on('file:preprocessor', webpackPreprocessor({
