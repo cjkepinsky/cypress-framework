@@ -5,20 +5,26 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: cypress-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  cypress-run:
+  quality:
+    name: Quality checks
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
           cache: npm
@@ -26,18 +32,62 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run quality checks
+      - name: Run lint and typecheck
         run: npm run check
 
+      - name: Validate commit messages
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          PULL_REQUEST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            npx --no -- commitlint --from "$PULL_REQUEST_BASE_SHA" --to "$PULL_REQUEST_HEAD_SHA" --verbose
+          elif [ -n "$BEFORE_SHA" ] && [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ]; then
+            npx --no -- commitlint --from "$BEFORE_SHA" --to "$CURRENT_SHA" --verbose
+          elif git rev-parse "${CURRENT_SHA}^" >/dev/null 2>&1; then
+            npx --no -- commitlint --from "${CURRENT_SHA}^" --to "$CURRENT_SHA" --verbose
+          else
+            npx --no -- commitlint --to "$CURRENT_SHA" --verbose
+          fi
+
+  cypress:
+    name: Cypress E2E
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Run Cypress tests
-        run: npm run demo:run
+        run: npm run demo:run -- --headless
+
+      - name: Generate Mochawesome report
+        if: always()
+        run: |
+          if [ -d cypress/reports ] && find cypress/reports -maxdepth 1 -name "mochawesome*.json" -print -quit | grep -q .; then
+            npm run generate-report
+          fi
 
       - name: Upload Cypress artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: cypress-artifacts
           if-no-files-found: ignore
+          retention-days: 7
           path: |
             cypress/reports
             cypress/screenshots
