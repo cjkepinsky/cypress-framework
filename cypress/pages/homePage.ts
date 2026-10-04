@@ -1,5 +1,6 @@
 import BasePage from "pages/basePage";
 import booksCatalog from "consts/booksCatalog.json";
+import ProductDetailsPage from "pages/productDetailsPage";
 
 export default class HomePage extends BasePage {
   protected container = 'body';
@@ -16,13 +17,13 @@ export default class HomePage extends BasePage {
     return this
   }
 
-  isPageTitleVisible(title: string) {
+  shouldShowPageTitle(title: string) {
     cy.contains(this.pageTitle, title).should('be.visible');
 
     return this;
   }
 
-  isCategorySidebarVisible() {
+  shouldShowCategorySidebar() {
     cy.get(this.categorySidebar)
       .should('be.visible')
       .and('contain', booksCatalog.categories.books)
@@ -32,7 +33,7 @@ export default class HomePage extends BasePage {
     return this;
   }
 
-  hasVisibleBookCards(minimumCount = 1) {
+  shouldShowAtLeastBookCards(minimumCount = 1) {
     cy.get(this.bookCards)
       .should('have.length.at.least', minimumCount)
       .each(bookCard => {
@@ -42,29 +43,30 @@ export default class HomePage extends BasePage {
     return this;
   }
 
-  isBookItemVisible(bookTitle: string) {
-    cy.get(`${this.bookCards} h3 a[title="${bookTitle}"]`).should('be.visible');
+  shouldShowBook(bookTitle: string) {
+    this.bookLink(bookTitle).should('be.visible');
 
     return this;
   }
 
   openBookDetails(bookTitle: string) {
-    cy.get(`${this.bookCards} h3 a[title="${bookTitle}"]`)
+    this.bookLink(bookTitle)
       .should('be.visible')
       .click();
 
-    return this;
+    return new ProductDetailsPage();
   }
 
   openCategory(categoryName: string) {
-    cy.contains(`${this.categorySidebar} a`, categoryName)
+    cy.get(this.categorySidebar)
+      .contains('a', categoryName)
       .should('be.visible')
       .click();
 
     return this;
   }
 
-  isPaginationVisible() {
+  shouldShowPagination() {
     cy.get(this.nextPageLink).should('be.visible');
     cy.get(this.currentPageIndicator).should('contain', booksCatalog.pagination.firstPage);
 
@@ -79,17 +81,23 @@ export default class HomePage extends BasePage {
     return this;
   }
 
-  isPreviousPageLinkVisible() {
+  shouldShowPreviousPageLink() {
     cy.get(this.previousPageLink).should('be.visible');
 
     return this;
   }
 
-  isCurrentPageIndicatorVisible(pageText: string) {
+  shouldShowCurrentPageIndicator(pageText: string) {
     cy.get(this.currentPageIndicator)
       .should('be.visible')
       .and('contain', pageText);
 
     return this;
+  }
+
+  private bookLink(bookTitle: string) {
+    return cy.get(`${this.bookCards} h3 a`).filter((_, element) => {
+      return element.getAttribute('title') === bookTitle;
+    });
   }
 }

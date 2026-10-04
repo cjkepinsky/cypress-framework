@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'cypress/browsers:node18.12.0-chrome107-ff106'
+            image 'cypress/included:15.15.0'
             args '-v /tmp:/tmp'
         }
     }
@@ -11,30 +11,27 @@ pipeline {
                 sh 'npm ci'
             }
         }
-        stage('Run Cypress Tests') {
+        stage('Quality checks') {
             steps {
-                sh 'npm run demo-run'
+                sh 'npm run check'
             }
         }
-        stage('Generate Report') {
+        stage('Run Cypress Tests') {
             steps {
-                sh 'npm run generate-report'
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'cypress/reports/html/*.html', allowEmptyArchive: true
-                    publishHTML(target: [
-                        reportDir: 'cypress/reports/html',
-                        reportFiles: 'mochawesome.html',
-                        reportName: 'Cypress Test Report'
-                    ])
-                }
+                sh 'npm run demo:run'
             }
         }
     }
     post {
         always {
-            archiveArtifacts artifacts: 'cypress/videos/**/*.mp4,cypress/screenshots/**/*.png', allowEmptyArchive: true
+            sh 'if [ -d cypress/reports ] && find cypress/reports -maxdepth 1 -name "mochawesome*.json" -print -quit | grep -q .; then npm run generate-report; fi'
+            archiveArtifacts artifacts: 'cypress/reports/**/*,cypress/videos/**/*.mp4,cypress/screenshots/**/*.png', allowEmptyArchive: true
+            publishHTML(target: [
+                allowMissing: true,
+                reportDir: 'cypress/reports/html',
+                reportFiles: 'output.html',
+                reportName: 'Cypress Test Report'
+            ])
         }
     }
 }

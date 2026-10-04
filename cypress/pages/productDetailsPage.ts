@@ -9,19 +9,23 @@ export default class ProductDetailsPage extends BasePage {
   private readonly productDescription = '#product_description';
   private readonly productInformationRows = 'table.table.table-striped tr';
 
-  hasTitle(bookTitle: string) {
-    cy.contains(this.title, bookTitle).should('be.visible');
+  shouldHaveTitle(bookTitle: string) {
+    cy.get(this.title)
+      .should('be.visible')
+      .and('contain', bookTitle);
 
     return this;
   }
 
-  hasPriceVisible() {
-    cy.get(this.price).should('be.visible');
+  shouldShowPrice() {
+    cy.get(this.price)
+      .should('be.visible')
+      .and('not.be.empty');
 
     return this;
   }
 
-  hasAvailabilityVisible() {
+  shouldShowAvailability() {
     cy.get(this.availability)
       .should('be.visible')
       .and('contain', booksCatalog.availability.inStock);
@@ -29,14 +33,21 @@ export default class ProductDetailsPage extends BasePage {
     return this;
   }
 
-  hasProductDescriptionVisible() {
-    cy.get(this.productDescription).should('be.visible');
+  shouldShowProductDescription() {
+    cy.get(this.productDescription)
+      .should('be.visible')
+      .and('not.be.empty');
 
     return this;
   }
 
-  hasProductInformationVisible() {
-    cy.get(this.productInformationRows).should('have.length.at.least', 5);
+  shouldShowProductInformation() {
+    cy.get(this.productInformationRows)
+      .should('have.length.at.least', booksCatalog.productInformation.length);
+
+    booksCatalog.productInformation.forEach(label => {
+      cy.contains(`${this.productInformationRows} th`, label).should('be.visible');
+    });
 
     return this;
   }

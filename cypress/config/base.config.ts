@@ -1,4 +1,5 @@
 import {defineConfig} from "cypress";
+import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 import webpackPreprocessor from '@cypress/webpack-preprocessor';
@@ -25,31 +26,42 @@ export default defineConfig({
       json: true
     },
     setupNodeEvents(on, config) {
-      const envPath = path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'local'}`);
+      const environmentName = process.env.NODE_ENV ?? config.env?.NODE_ENV ?? 'local';
+      const envPath = path.resolve(config.projectRoot, `.env.${environmentName}`);
 
-      try {
+      if (fs.existsSync(envPath)) {
         const result = dotenv.config({path: envPath});
         if (result.error) {
-          console.error("Error loading .env file:", result.error);
+          throw result.error;
         }
-      } catch (error) {
-        console.error("Error loading .env file:", error);
+      }
+
+      const baseUrl = process.env.BASE_URL ?? config.baseUrl;
+      if (!baseUrl) {
+        throw new Error(`BASE_URL is required for the "${environmentName}" environment.`);
       }
 
       config.env = {
         ...config.env,
-        NODE_ENV: process.env.NODE_ENV,
-        BASE_URL: process.env.BASE_URL,
+        NODE_ENV: environmentName,
+        BASE_URL: baseUrl,
       };
+      config.baseUrl = baseUrl;
+
+      const cypressRoot = path.resolve(config.projectRoot, 'cypress');
 
       on('file:preprocessor', webpackPreprocessor({
         webpackOptions: {
           resolve: {
             alias: {
-              pages: path.resolve(__dirname, '..', 'pages')
+              config: path.resolve(cypressRoot, 'config'),
+              consts: path.resolve(cypressRoot, 'consts'),
+              helpers: path.resolve(cypressRoot, 'helpers'),
+              pages: path.resolve(cypressRoot, 'pages'),
+              routes: path.resolve(cypressRoot, 'routes'),
             },
             extensions: ['.ts', '.js'],
-            modules: [path.resolve(__dirname, '..'), 'node_modules']
+            modules: [cypressRoot, path.resolve(config.projectRoot, 'node_modules')]
           },
           module: {
             rules: [
@@ -72,12 +84,5 @@ export default defineConfig({
 
       return config;
     },
-  },
-  component: {
-    devServer: {
-      framework: "react",
-      bundler: "webpack",
-    },
-    specPattern: "cypress/component/**/*.ts",
   },
 });

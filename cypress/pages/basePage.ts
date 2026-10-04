@@ -4,19 +4,19 @@ export default abstract class BasePage {
   protected abstract container: string;
   private readonly breadcrumb = '.breadcrumb';
 
-  isVisible() {
+  shouldBeVisible() {
     cy.get(this.container).should('be.visible');
 
     return this;
   }
 
-  isHeaderVisible() {
+  shouldShowHeader() {
     cy.contains('a', booksCatalog.siteTitle).should('be.visible');
 
     return this;
   }
 
-  isBreadcrumbVisible(label: string) {
+  shouldShowBreadcrumb(label: string) {
     cy.get(this.breadcrumb)
       .should('be.visible')
       .and('contain', label);
@@ -25,20 +25,8 @@ export default abstract class BasePage {
   }
 
   openPage(url: string) {
-    cy.visit(url)
+    cy.visit(url);
 
-    return this
-  }
-
-  waitForRoute(routeAlias: string) {
-    cy.wait(`@${routeAlias}`, {timeout: 10000})
-
-    return this
-  }
-
-  wait(seconds: number) {
-    cy.wait(seconds * 1000)
-
-    return this
+    return this;
   }
 }

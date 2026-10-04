@@ -10,10 +10,10 @@ describe('Catalog pagination', () => {
 
   it('should move to the next catalog page', () => {
     homePage
-      .isPaginationVisible()
+      .shouldShowPagination()
       .goToNextPage()
-      .isCurrentPageIndicatorVisible(booksCatalog.pagination.secondPage)
-      .isPreviousPageLinkVisible()
-      .hasVisibleBookCards(20);
+      .shouldShowCurrentPageIndicator(booksCatalog.pagination.secondPage)
+      .shouldShowPreviousPageLink()
+      .shouldShowAtLeastBookCards(20);
   });
 });

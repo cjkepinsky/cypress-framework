@@ -10,17 +10,17 @@ describe('Books home page', () => {
 
   it('should display core storefront elements', () => {
     homePage
-      .isVisible()
-      .isHeaderVisible()
-      .isPageTitleVisible(booksCatalog.pageTitles.allProducts)
-      .isCategorySidebarVisible()
-      .hasVisibleBookCards(20)
-      .isPaginationVisible();
+      .shouldBeVisible()
+      .shouldShowHeader()
+      .shouldShowPageTitle(booksCatalog.pageTitles.allProducts)
+      .shouldShowCategorySidebar()
+      .shouldShowAtLeastBookCards(20)
+      .shouldShowPagination();
   });
 
   it('should display known books in the product grid', () => {
     homePage
-      .isBookItemVisible(booksCatalog.books.aLightInTheAttic)
-      .isBookItemVisible(booksCatalog.books.tippingTheVelvet);
+      .shouldShowBook(booksCatalog.books.aLightInTheAttic)
+      .shouldShowBook(booksCatalog.books.tippingTheVelvet);
   });
 });

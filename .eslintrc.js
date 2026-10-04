@@ -8,8 +8,6 @@ module.exports = {
   },
   ignorePatterns: ['cypress/reports/**/*'],
   rules: {
-    '@typescript-eslint/no-explicit-any': 'off',
-    'cypress/no-unnecessary-waiting': 'off',
-    'cypress/unsafe-to-chain-command': 'off'
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 };

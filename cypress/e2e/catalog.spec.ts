@@ -11,9 +11,9 @@ describe('Book catalog', () => {
   it('should open a public category and show matching books', () => {
     homePage
       .openCategory(booksCatalog.categories.travel)
-      .isPageTitleVisible(booksCatalog.categories.travel)
-      .isBreadcrumbVisible(booksCatalog.categories.travel)
-      .hasVisibleBookCards(1)
-      .isBookItemVisible(booksCatalog.books.itsOnlyTheHimalayas);
+      .shouldShowPageTitle(booksCatalog.categories.travel)
+      .shouldShowBreadcrumb(booksCatalog.categories.travel)
+      .shouldShowAtLeastBookCards(1)
+      .shouldShowBook(booksCatalog.books.itsOnlyTheHimalayas);
   });
 });
